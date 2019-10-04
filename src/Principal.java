@@ -16,13 +16,13 @@ public class Principal {
 	public Principal(String entrada) {
 			this.entrada=entrada;
 			
-			cinta.add(0," ");
+			cinta.add(0," "); //coloco un segmento vacio de la cinta antes
 			
 			for (int i = 1; i <= entrada.length(); i++) {
 				
 				cinta.add(i,String.valueOf(entrada.charAt(i-1)) );
 			}
-			cinta.add(" ");
+			cinta.add(" ");  //coloco un segmento vacio de la cinta al final
 			imprime_cinta();
 	}
 	
@@ -141,7 +141,7 @@ public class Principal {
 	}
 	
 	public static void main(String args[]) {
-		Principal p = new Principal("ab");
+		Principal p = new Principal("aaaaaaaaabbbbbbbbb");
 		System.out.println("\nEntrada valida para MT: "+p.analiza_entrada());
 		p.estado_q0(0);
 	}
