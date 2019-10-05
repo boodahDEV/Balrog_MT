@@ -1,3 +1,5 @@
+package console;
+
 import java.util.ArrayList;
 /*
  * Creado por boodahDEV 2019
@@ -22,7 +24,6 @@ public class Principal {
 				
 				cinta.add(i,String.valueOf(entrada.charAt(i-1)) );
 			}
-			cinta.add(" ");  //coloco un segmento vacio de la cinta al final
 			imprime_cinta();
 	}
 	
