@@ -19,10 +19,13 @@ import java.awt.event.MouseMotionAdapter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+
 import java.awt.GridLayout;
 
 public class GUI_MAIN extends JFrame {
@@ -31,7 +34,7 @@ public class GUI_MAIN extends JFrame {
 	public 		JTextField 			visual_cinta [];
 	private 	JPanel 				contentPane, titulo,panel_cinta;
 	public 		int 				x, y;
-	public 		int 				tamano_entrada = 0;
+	public 		int 				tamano_entrada = 0,p_actual;
 	private 	JTextField 			entrada;
 	protected 	MaterialButton 		busca_archivos;
     public 		JFileChooser 		seleccion;
@@ -88,7 +91,7 @@ public class GUI_MAIN extends JFrame {
 				exit.setBounds(728, 5, 30, 30);
 				titulo.add(exit);
 				
-				JLabel titulo_version = new JLabel("Balrog_MT alpha-1.0");
+				JLabel titulo_version = new JLabel("Balrog_MT alpha-1.3");
 				titulo_version.setForeground(Color.WHITE);
 				titulo_version.setFont(new Font("Century Schoolbook L", Font.BOLD, 20));
 				titulo_version.setBounds(25, 8, 256, 22);
@@ -121,6 +124,7 @@ public class GUI_MAIN extends JFrame {
 					public void actionPerformed(ActionEvent arg0) {
 						new Gestor_color("193,88,220","193,88,220","193,88,220","none",cargar);
 						crea_cinta();
+						entrada.setEnabled(false);
 						busca_archivos.setEnabled(false);cargar.setEnabled(false);
 					}
 				});
@@ -219,17 +223,77 @@ public class GUI_MAIN extends JFrame {
 				visual_cinta[j].setHorizontalAlignment(SwingConstants.CENTER);
 				visual_cinta[j].setText(cinta.get(j));
 				visual_cinta[j].setBounds(10, 20, 20, 25);
+				visual_cinta[j].setEditable(false);
 				panel_cinta.add(visual_cinta[j]);
 				visual_cinta[j].setColumns(10);
 			}
-			
+			System.out.println("Visual cinta: "+visual_cinta.length);
+			System.out.println("cinta: "+cinta.size());
+			System.out.println("Cadena entrada: "+cadena_entrada.length());
+			estado_q0(0);
 
 		}else {
 			//manejo de errores!
 		}
 
-		
+	
 	}//fin crea cinta
+	
+	public void estado_q0(int p_anterior) {
+		p_actual = p_anterior + 1; 
+		
+		for (int i = 0; i < visual_cinta.length; i++) {
+			visual_cinta[i].setBorder(new MatteBorder(1, 1, 1, 1, new Color(193,88,220)));
+			try {
+			    TimeUnit.SECONDS.sleep(1000);
+			} catch (InterruptedException ie) {
+			    Thread.currentThread().interrupt();
+			}
+			if (visual_cinta[i].getText().equals("a") && cinta.get(p_actual).equals("a")) {
+				// elimina la antigua
+					cinta.remove(p_actual);
+					visual_cinta[i].setBackground(new Color(144, 238, 144));
+				// Anade el valor analizado
+					visual_cinta[i].setText("A");
+					cinta.add(p_actual, "A");
+			    System.out.println("\n[a:"+cinta.get(p_actual)+":R]->Q1");
+			    
+//				estado_q1(p_actual);
+			}else
+				visual_cinta[i].setBorder(UIManager.getBorder("TextField.border"));
+
+		}
+//		if(cinta.get(p_actual).equals("a")) {
+
+
+//		} 
+//		
+//		while(cinta.get(p_actual).equals("B")) {
+//			 System.out.print("\n["+cinta.get(p_actual)+":"+cinta.get(p_actual)+":R]->Q0");
+//		     p_actual++; 
+//		}//analiza la cinta en busca de alguna a o b
+//		
+//		if(cinta.get(p_actual).equals(" ")) {
+//			System.out.print("\n["+cinta.get(p_actual)+":"+cinta.get(p_actual)+":R]->Q2");
+////			estado_q2();
+//		}
+	}//Q0
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public void imprimir_cinta_consola() {
 		System.out.print("\tCINTA\n");
