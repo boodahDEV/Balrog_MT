@@ -28,7 +28,7 @@ import javax.swing.UIManager;
 
 import java.awt.GridLayout;
 
-public class GUI_MAIN extends JFrame implements Runnable{
+public class GUI_MAIN extends JFrame {
 	
 	public		ArrayList<String> 	cinta = new ArrayList<String> ();
 	public 		JTextField 			visual_cinta [];
@@ -49,7 +49,7 @@ public class GUI_MAIN extends JFrame implements Runnable{
 	public GUI_MAIN() {
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 768, 457);
+		setBounds(100, 100, 768, 498);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new MatteBorder(2, 2, 2, 2, (Color) new Color(142,36,170)));
@@ -169,7 +169,7 @@ public class GUI_MAIN extends JFrame implements Runnable{
 				configuracion_entrada.add(busca_archivos);
 				
 				panel_cinta = new JPanel();
-				panel_cinta.setBounds(12, 419, 744, 30);
+				panel_cinta.setBounds(12, 419, 744, 40);
 				contentPane.add(panel_cinta);
 
 				JLabel reload = new JLabel("");
@@ -226,12 +226,14 @@ public class GUI_MAIN extends JFrame implements Runnable{
 				visual_cinta[j].setEditable(false);
 				panel_cinta.add(visual_cinta[j]);
 				visual_cinta[j].setColumns(10);
+				panel_cinta.repaint();
 			}
+			try {Thread.sleep(1000);}catch(Exception e) {}
 			System.out.println("Visual cinta: "+visual_cinta.length);
 			System.out.println("cinta: "+cinta.size());
 			System.out.println("Cadena entrada: "+cadena_entrada.length());
-			estado_q0(0);
-			new Thread(this).start();
+//			estado_q0(0);
+			new ThreadMT(visual_cinta, cinta).start();
 
 		}else {
 			//manejo de errores!
@@ -240,40 +242,7 @@ public class GUI_MAIN extends JFrame implements Runnable{
 	
 	}//fin crea cinta
 	
-	public void estado_q0(int p_anterior) {
-	
-//		if(cinta.get(p_actual).equals("a")) {
 
-
-//		} 
-//		
-//		while(cinta.get(p_actual).equals("B")) {
-//			 System.out.print("\n["+cinta.get(p_actual)+":"+cinta.get(p_actual)+":R]->Q0");
-//		     p_actual++; 
-//		}//analiza la cinta en busca de alguna a o b
-//		
-//		if(cinta.get(p_actual).equals(" ")) {
-//			System.out.print("\n["+cinta.get(p_actual)+":"+cinta.get(p_actual)+":R]->Q2");
-////			estado_q2();
-//		}
-	}//Q0
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public void imprimir_cinta_consola() {
 		System.out.print("\tCINTA\n");
 		System.out.print(" [");
@@ -311,34 +280,5 @@ public class GUI_MAIN extends JFrame implements Runnable{
         
     }//fin opcion abrir
 
-
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		p_actual = 1; 
-		int i = 0;
-		while (i < visual_cinta.length) {
-			
-			visual_cinta[i].setBorder(new MatteBorder(1, 1, 1, 1, new Color(193,88,220)));
-			try {Thread.sleep(1000);}catch(Exception e) {}
-			
-			
-			
-			if (visual_cinta[i].getText().equals("a") && cinta.get(p_actual).equals("a")) {
-				// elimina la antigua
-					cinta.remove(p_actual);
-					visual_cinta[i].setBackground(new Color(144, 238, 144));
-				// Anade el valor analizado
-					visual_cinta[i].setText("A");
-					cinta.add(p_actual, "A");
-			    System.out.println("\n[a:"+cinta.get(p_actual)+":R]->Q1");
-			    p_actual+=1;continue;
-//				estado_q1(p_actual);
-			}else {
-				visual_cinta[i].setBorder(UIManager.getBorder("TextField.border"));
-			}
-			i++;
-		}
-	}//fin hilo
  
 }//fin clase

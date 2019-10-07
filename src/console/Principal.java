@@ -24,6 +24,7 @@ public class Principal {
 				
 				cinta.add(i,String.valueOf(entrada.charAt(i-1)) );
 			}
+			cinta.add(cinta.size()," "); //coloco un segmento vacio de la cinta antes
 			imprime_cinta();
 	}
 	
@@ -142,7 +143,7 @@ public class Principal {
 	}
 	
 	public static void main(String args[]) {
-		Principal p = new Principal("aaaaaaaaabbbbbbbbb");
+		Principal p = new Principal("aaabbb");
 		System.out.println("\nEntrada valida para MT: "+p.analiza_entrada());
 		p.estado_q0(0);
 	}
