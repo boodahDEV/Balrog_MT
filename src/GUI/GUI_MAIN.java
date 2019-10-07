@@ -28,7 +28,7 @@ import javax.swing.UIManager;
 
 import java.awt.GridLayout;
 
-public class GUI_MAIN extends JFrame {
+public class GUI_MAIN extends JFrame implements Runnable{
 	
 	public		ArrayList<String> 	cinta = new ArrayList<String> ();
 	public 		JTextField 			visual_cinta [];
@@ -231,6 +231,7 @@ public class GUI_MAIN extends JFrame {
 			System.out.println("cinta: "+cinta.size());
 			System.out.println("Cadena entrada: "+cadena_entrada.length());
 			estado_q0(0);
+			new Thread(this).start();
 
 		}else {
 			//manejo de errores!
@@ -240,29 +241,7 @@ public class GUI_MAIN extends JFrame {
 	}//fin crea cinta
 	
 	public void estado_q0(int p_anterior) {
-		p_actual = p_anterior + 1; 
-		
-		for (int i = 0; i < visual_cinta.length; i++) {
-			visual_cinta[i].setBorder(new MatteBorder(1, 1, 1, 1, new Color(193,88,220)));
-			try {
-			    TimeUnit.SECONDS.sleep(1000);
-			} catch (InterruptedException ie) {
-			    Thread.currentThread().interrupt();
-			}
-			if (visual_cinta[i].getText().equals("a") && cinta.get(p_actual).equals("a")) {
-				// elimina la antigua
-					cinta.remove(p_actual);
-					visual_cinta[i].setBackground(new Color(144, 238, 144));
-				// Anade el valor analizado
-					visual_cinta[i].setText("A");
-					cinta.add(p_actual, "A");
-			    System.out.println("\n[a:"+cinta.get(p_actual)+":R]->Q1");
-			    
-//				estado_q1(p_actual);
-			}else
-				visual_cinta[i].setBorder(UIManager.getBorder("TextField.border"));
-
-		}
+	
 //		if(cinta.get(p_actual).equals("a")) {
 
 
@@ -331,5 +310,35 @@ public class GUI_MAIN extends JFrame {
         	System.out.println("ERROR"); //manejo de errores
         
     }//fin opcion abrir
+
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		p_actual = 1; 
+		int i = 0;
+		while (i < visual_cinta.length) {
+			
+			visual_cinta[i].setBorder(new MatteBorder(1, 1, 1, 1, new Color(193,88,220)));
+			try {Thread.sleep(1000);}catch(Exception e) {}
+			
+			
+			
+			if (visual_cinta[i].getText().equals("a") && cinta.get(p_actual).equals("a")) {
+				// elimina la antigua
+					cinta.remove(p_actual);
+					visual_cinta[i].setBackground(new Color(144, 238, 144));
+				// Anade el valor analizado
+					visual_cinta[i].setText("A");
+					cinta.add(p_actual, "A");
+			    System.out.println("\n[a:"+cinta.get(p_actual)+":R]->Q1");
+			    p_actual+=1;continue;
+//				estado_q1(p_actual);
+			}else {
+				visual_cinta[i].setBorder(UIManager.getBorder("TextField.border"));
+			}
+			i++;
+		}
+	}//fin hilo
  
 }//fin clase
