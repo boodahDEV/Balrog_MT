@@ -38,6 +38,8 @@ public class ThreadMT extends Thread {
 		
 	}
 	
+	
+	
 	public void estado_q0(int p_anterior) {
 		int p_actual = p_anterior + 1; 
 		
@@ -111,7 +113,7 @@ public class ThreadMT extends Thread {
         
         System.out.println();
         System.out.println("Fin del recorrido!");
-        System.exit(0);
+//        System.exit(0);
         		
 	}//Q2
 

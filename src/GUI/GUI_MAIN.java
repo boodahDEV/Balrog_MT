@@ -91,7 +91,7 @@ public class GUI_MAIN extends JFrame {
 				exit.setBounds(728, 5, 30, 30);
 				titulo.add(exit);
 				
-				JLabel titulo_version = new JLabel("Balrog_MT alpha-1.3");
+				JLabel titulo_version = new JLabel("Balrog_MT   beta-1.0");
 				titulo_version.setForeground(Color.WHITE);
 				titulo_version.setFont(new Font("Century Schoolbook L", Font.BOLD, 20));
 				titulo_version.setBounds(25, 8, 256, 22);
