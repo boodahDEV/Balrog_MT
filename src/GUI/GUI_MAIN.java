@@ -40,11 +40,11 @@ public class GUI_MAIN extends JFrame {
 	
 	public		ArrayList<String> 	cinta = new ArrayList<String> ();
 	public 		JTextField 			visual_cinta [];
-	private 	JPanel 				contentPane, titulo,panel_cinta;
+	public 		JPanel 				contentPane, titulo,panel_cinta;
 	public 		int 				x, y;
 	public 		int 				tamano_entrada = 0,p_actual;
 	private 	JTextField 			entrada;
-	protected 	MaterialButton 		busca_archivos;
+	public 		MaterialButton 		busca_archivos,iniciar,cargar;
     public 		JFileChooser 		seleccion;
     public 		JTextArea 			jta_info, jta_estado;
     public 		JLabel				alertas;
@@ -157,7 +157,7 @@ public class GUI_MAIN extends JFrame {
 				git.setContentAreaFilled(false);
 				git.setBorderPainted(false);
 				
-				MaterialButton iniciar = new MaterialButton();
+				iniciar = new MaterialButton();
 				iniciar.setBounds(186, 124, 68, 35);
 				iniciar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
@@ -181,7 +181,7 @@ public class GUI_MAIN extends JFrame {
 				iniciar.setText("Iniciar");
 				configuracion_entrada.add(iniciar);
 				
-				MaterialButton cargar = new MaterialButton();
+				cargar = new MaterialButton();
 				cargar.setBounds(53, 77, 160, 35);
 				configuracion_entrada.add(cargar);
 				cargar.addActionListener(new ActionListener() {
@@ -189,6 +189,7 @@ public class GUI_MAIN extends JFrame {
 						new Gestor_color("193,88,220","193,88,220","193,88,220","none",cargar);
 						crea_cinta();
 						entrada.setEnabled(false);
+						alertas.setText("");
 						busca_archivos.setEnabled(false);cargar.setEnabled(false);
 					}
 				});
@@ -219,6 +220,7 @@ public class GUI_MAIN extends JFrame {
 					public void actionPerformed(ActionEvent arg0) {
 						new Gestor_color("193,88,220","193,88,220","193,88,220","none",busca_archivos);
 						busca_archivos.setEnabled(false); entrada.setEnabled(false);
+						alertas.setText("");
 				        seleccion = new JFileChooser();
 						opcionAbrir();
 					}
@@ -241,9 +243,13 @@ public class GUI_MAIN extends JFrame {
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						new Gestor_color("142,36,170","193,88,220","193,88,220","none",cargar);
+						contentPane.setBorder(new MatteBorder(2, 2, 2, 2, (Color) new Color(142,36,170)));
+						titulo.setBackground(new Color(142,36,170));
+						jta_estado.setBorder(null);
 						busca_archivos.setEnabled(true);
 						cargar.setEnabled(true);
 						entrada.setText("");
+						new Gestor_color("142,36,170","193,88,220","193,88,220","none",iniciar);
 						entrada.setEnabled(true);
 						iniciar.setEnabled(true);
 						alertas.setText("");

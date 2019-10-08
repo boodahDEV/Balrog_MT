@@ -28,7 +28,7 @@ public class ThreadMT extends Thread {
 		int p_actual = 0; //inicio desde la posicion vacia de la cinta
 		jta.append("Iniciando hilo...\n\n");
 		visual_cinta[p_actual].setBorder(new MatteBorder(1, 1, 1, 1, new Color(193,88,220)));
-		try {Thread.sleep(1000);}catch(Exception e) {}
+		try {Thread.sleep(500);}catch(Exception e) {}
 		
 		estado_q0(p_actual);
 		
@@ -40,7 +40,7 @@ public class ThreadMT extends Thread {
 	    jta.append("\t\t\nMovimiento\n");
 		visual_cinta[anterior].setBorder(UIManager.getBorder("TextField.border"));
 		visual_cinta[actual].setBorder(new MatteBorder(1, 1, 1, 1, new Color(193,88,220)));
-		try {Thread.sleep(1000);}catch(Exception e) {}
+		try {Thread.sleep(500);}catch(Exception e) {}
 		
 	}
 	
@@ -122,6 +122,18 @@ public class ThreadMT extends Thread {
         System.out.println();
 
 		jta.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(50, 205, 50)));
+		gui.contentPane.setBorder(new MatteBorder(2, 2, 2, 2, (Color) new Color(50, 205, 50)));
+		gui.titulo.setBackground(new Color(50, 205, 50));
+		gui.iniciar.setColorNormal(new Color(50, 205, 50));
+		gui.iniciar.setColorHover(new Color(50, 205, 50));
+		gui.iniciar.setColorPressed(new Color(50, 205, 50));
+		gui.busca_archivos.setColorNormal(new Color(50, 205, 50));
+		gui.busca_archivos.setColorHover(new Color(50, 205, 50));
+		gui.busca_archivos.setColorPressed(new Color(50, 205, 50));
+		gui.cargar.setColorNormal(new Color(50, 205, 50));
+		gui.cargar.setColorHover(new Color(50, 205, 50));
+		gui.cargar.setColorPressed(new Color(50, 205, 50));
+		
 		jta.append("\n\nFin del recorrido!\n\n");
 		
 		
