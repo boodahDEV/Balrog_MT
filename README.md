@@ -109,8 +109,11 @@ El recorrido de los estados consta del analicis de la siguiendo el desarrollo de
 <br>
 
 ## Adjunto unas capturas de [BalrogMT_beta-1.0](https://github.com/boodahDEV/Balrog_MT/archive/BalrogMT_beta-1.0.zip):
-
 <img src="https://github.com/boodahDEV/Balrog_MT/blob/master/bin/Screenshot_20191007_024617.png" > 
 <img src="https://github.com/boodahDEV/Balrog_MT/blob/master/bin/Screenshot_20191007_024643.png" > 
-<img src="https://github.com/boodahDEV/Balrog_MT/blob/master/bin/Screenshot_20191007_024656.png" > 
-<img src="https://github.com/boodahDEV/Balrog_MT/blob/master/bin/Screenshot_20191007_024708.png" > 
+
+
+## Adjunto unas capturas de [BalrogMT_beta-1.5 estable](https://github.com/boodahDEV/Balrog_MT/archive/BalrogMT_beta-1.5.zip):
+<img src="https://raw.githubusercontent.com/boodahDEV/Balrog_MT/master/bin/Screenshot_20191008_173231.png?token=AIWRLPVQUPLZN2ZLLQLSLBC5TUIGG" > 
+<img src="https://raw.githubusercontent.com/boodahDEV/Balrog_MT/master/bin/Screenshot_20191008_173242.png?token=AIWRLPQYPONQ4PEBS2DHRHS5TUIGQ" > 
+
