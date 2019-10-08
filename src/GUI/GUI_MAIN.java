@@ -6,11 +6,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.MatteBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Desktop;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,15 +20,21 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseMotionAdapter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.net.URI;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 
 import java.awt.GridLayout;
+import javax.swing.JTextArea;
+
+/*
+ * Creado por boodahDEV 2019
+ * Solo valido para cadenas (a)^n (b)^n
+ * 
+ * */
 
 public class GUI_MAIN extends JFrame {
 	
@@ -38,6 +46,8 @@ public class GUI_MAIN extends JFrame {
 	private 	JTextField 			entrada;
 	protected 	MaterialButton 		busca_archivos;
     public 		JFileChooser 		seleccion;
+    public 		JTextArea 			jta_info, jta_estado;
+    public 		JLabel				alertas;
 	
 	public static void main(String[] args) {
 		GUI_MAIN frame = new GUI_MAIN();
@@ -49,7 +59,7 @@ public class GUI_MAIN extends JFrame {
 	public GUI_MAIN() {
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 768, 498);
+		setBounds(100, 100, 768, 472);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new MatteBorder(2, 2, 2, 2, (Color) new Color(142,36,170)));
@@ -91,10 +101,10 @@ public class GUI_MAIN extends JFrame {
 				exit.setBounds(728, 5, 30, 30);
 				titulo.add(exit);
 				
-				JLabel titulo_version = new JLabel("Balrog_MT   beta-1.0");
+				JLabel titulo_version = new JLabel("Balrog_MT   beta-1.2");
 				titulo_version.setForeground(Color.WHITE);
-				titulo_version.setFont(new Font("Century Schoolbook L", Font.BOLD, 20));
-				titulo_version.setBounds(25, 8, 256, 22);
+				titulo_version.setFont(new Font("Century Schoolbook L", Font.BOLD, 18));
+				titulo_version.setBounds(10, 8, 256, 22);
 				titulo.add(titulo_version);
 			
 			JPanel estado_cadena = new JPanel();
@@ -102,6 +112,14 @@ public class GUI_MAIN extends JFrame {
 			estado_cadena.setBounds(480, 54, 276, 353);
 			contentPane.add(estado_cadena);
 			estado_cadena.setLayout(null);
+				jta_estado = new JTextArea();
+				jta_estado.setFont(new Font("Century Schoolbook L", Font.BOLD, 14));
+				jta_estado.setEditable(false);
+				JScrollPane jspe = new JScrollPane(jta_estado);
+				jspe.setBorder(null);
+				jspe.setBounds(10, 35, 434, 129);
+				estado_cadena.add(jspe);
+			
 			
 			//---> todo lo del panel estado_cadena
 			
@@ -116,6 +134,52 @@ public class GUI_MAIN extends JFrame {
 			configuracion_entrada.setLayout(null);
 			
 			//---> todo lo del panel configuracion entrada
+			
+				JButton git = new JButton("");
+				git.setBounds(0, 0, 40, 40);
+				configuracion_entrada.add(git);
+				git.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent a) {
+						try {
+							Desktop.getDesktop().browse(new URI("https://github.com/boodahDEV"));
+							} catch (Exception e) {
+								//aviso.setVisible(true);
+								System.out.println("Error, sin conexion!"+e);
+							} 
+					}
+				});
+				git.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				git.setRolloverSelectedIcon(new ImageIcon(GUI_MAIN.class.getResource("/GUI/github2.png")));
+				git.setRolloverIcon(new ImageIcon(GUI_MAIN.class.getResource("/GUI/github2.png")));
+				git.setIcon(new ImageIcon(GUI_MAIN.class.getResource("/GUI/github.png")));
+				git.setIconTextGap(-10);
+				git.setFocusable(false);
+				git.setContentAreaFilled(false);
+				git.setBorderPainted(false);
+				
+				MaterialButton iniciar = new MaterialButton();
+				iniciar.setBounds(186, 124, 68, 35);
+				iniciar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						if(!entrada.isEnabled() && !entrada.getText().isEmpty()) {
+							jta_info.append("\nIniciando hilos...\n\n");
+							ThreadMT tmt = new ThreadMT(visual_cinta, cinta,jta_estado);
+							tmt.start();
+							try {Thread.yield();} catch (Exception e) {}
+							iniciar.setEnabled(false);
+						}else {
+							alertas.setForeground(Color.RED);
+							alertas.setText("Error al iniciar la maquina de turing!");
+						}
+					}
+				});
+				iniciar.setColorNormal(new Color(142,36,170));
+				iniciar.setColorHover(new Color(193,88,220));
+				iniciar.setColorPressed(new Color(193,88,220));
+				iniciar.setColorTextNormal(new Color(255,255,255));
+				iniciar.setFocusable(false);
+				iniciar.setText("Iniciar");
+				configuracion_entrada.add(iniciar);
 				
 				MaterialButton cargar = new MaterialButton();
 				cargar.setBounds(53, 77, 160, 35);
@@ -181,7 +245,12 @@ public class GUI_MAIN extends JFrame {
 						cargar.setEnabled(true);
 						entrada.setText("");
 						entrada.setEnabled(true);
+						iniciar.setEnabled(true);
+						alertas.setText("");
+
 						new Gestor_color("142,36,170","193,88,220","193,88,220","none",busca_archivos);
+						jta_estado.setText("");
+						jta_info.setText("");
 						cinta.clear();
 						panel_cinta.removeAll();
 						panel_cinta.repaint();
@@ -193,24 +262,43 @@ public class GUI_MAIN extends JFrame {
 				reload.setBounds(402, 52, 25, 25);
 				configuracion_entrada.add(reload);
 				
+				JPanel panel_info = new JPanel();
+				panel_info.setLayout(null);
+				panel_info.setForeground(Color.GRAY);
+				panel_info.setBorder(new MatteBorder(0, 0, 0, 1, new Color(193,88,220)));
+				panel_info.setBackground(Color.WHITE);
+				panel_info.setBounds(12, 230, 456, 176);
+				contentPane.add(panel_info);
 				
-//				txtA.setBackground(new Color(144, 238, 144));
-
-				
-//				textField.setBackground(new Color(240, 128, 128)); 
-
-			
-	}
+					alertas = new JLabel("");
+					alertas.setFont(new Font("Century Schoolbook L", Font.PLAIN, 15));
+					alertas.setBounds(10, 10, 434, 20);
+					panel_info.add(alertas);
+					
+					jta_info = new JTextArea();
+					jta_info.setFont(new Font("Century Schoolbook L", Font.BOLD, 14));
+					jta_info.setEditable(false);
+					JScrollPane jsp = new JScrollPane(jta_info);
+					jsp.setBorder(null);
+					jsp.setBounds(10, 35, 434, 129);
+					panel_info.add(jsp);
+					
+	}//fin constructor
 	
 	public void crea_cinta() {
 		
 		String cadena_entrada = entrada.getText().replaceAll("\\s*$","").trim(); // limpio la cadena de impuresas 
-		if(!cadena_entrada.isEmpty()) {
+		if(!cadena_entrada.isEmpty() && analiza_entrada(cadena_entrada)==true) {
+			jta_info.setText("");
 			cinta.add(0," "); //coloco un segmento vacio de la cinta antes
 			for (int i = 1; i <= cadena_entrada.length() && cadena_entrada.charAt(i-1) != 32; i++) {
 				cinta.add(i,String.valueOf(cadena_entrada.charAt(i-1)) );
+				if(i%2==0)
+					jta_info.append("Cargando cinta!\n");
+
 			}
 			cinta.add(" ");  //coloco un segmento vacio de la cinta al final.
+			jta_info.append("Cinta cargada...\n\n");
 			
 			//Creo el arreglo de cinta!
 			tamano_entrada = cinta.size();
@@ -227,21 +315,23 @@ public class GUI_MAIN extends JFrame {
 				panel_cinta.add(visual_cinta[j]);
 				visual_cinta[j].setColumns(10);
 				panel_cinta.repaint();
+				if(j%2==0)
+					jta_info.append("Cargando la cinta visual...\n");
 			}
-			try {Thread.sleep(1000);}catch(Exception e) {}
-			System.out.println("Visual cinta: "+visual_cinta.length);
-			System.out.println("cinta: "+cinta.size());
-			System.out.println("Cadena entrada: "+cadena_entrada.length());
-//			estado_q0(0);
-			new ThreadMT(visual_cinta, cinta).start();
+			jta_info.append("Cinta visual cargada...\n\n\n");
+
+			jta_info.append("Tamano visual cinta: "+visual_cinta.length+"\n");
+			jta_info.append("Tamano de cinta: "+cinta.size()+"\n");
+			jta_info.append("Cadena entrada: "+cadena_entrada.length()+"\n");
 
 		}else {
 			//manejo de errores!
+			alertas.setForeground(Color.RED);
+			alertas.setText("ERROR!, cadena de entrada invalida o vacia");
 		}
 
 	
 	}//fin crea cinta
-	
 
 	public void imprimir_cinta_consola() {
 		System.out.print("\tCINTA\n");
@@ -259,6 +349,8 @@ public class GUI_MAIN extends JFrame {
         	seleccion.setCurrentDirectory(new File((new File(".").getCanonicalPath())));
         } catch (Exception e) {
          // manejo de errores
+        	alertas.setForeground(Color.RED);
+			alertas.setText("ERROR!, problema al abrir la cadena por este medio");
         }
         
         
@@ -273,12 +365,36 @@ public class GUI_MAIN extends JFrame {
                 leidos = flectura.read(matriz,0,matriz.length);
                 entrada.setText(new String (matriz, 0, leidos));   
             }catch (Exception fnf){
-                System.out.println("El fichero " + fichero.getAbsolutePath() + " no esta disponible.");
+            	alertas.setForeground(Color.RED);
+				alertas.setText("El fichero " + fichero.getAbsolutePath() + " no esta disponible.");
+//                System.out.println("El fichero " + fichero.getAbsolutePath() + " no esta disponible.");
             }
-        }else
-        	System.out.println("ERROR"); //manejo de errores
-        
+        }else {
+        	alertas.setForeground(Color.RED);
+			alertas.setText("ERROR!");
+        }        
     }//fin opcion abrir
 
- 
+	public boolean analiza_entrada(String entrada) {
+		 int l = entrada.length(); 
+	        if (l%2 == 1){ 
+	        	System.out.print("ok");
+	            return false; 
+	        } // :v solo las entradas pares tienen a ser valida 
+	        
+	        int i = 0; 
+	        int j = l-1; 
+	        
+	        //ahora verifico esta mrd a ver si tiene solo letras ab por lo menos
+	        while (i<j) { 
+	            if(entrada.charAt(i) != 'a' || entrada.charAt(j) != 'b'){ 
+		        	System.out.print("\nKO");
+	                return false; 
+	            } 	
+	          i++; 
+	          j--; 
+	        } 
+		return true;
+	}// fiuncion para manejar los errores
+
 }//fin clase
