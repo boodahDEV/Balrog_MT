@@ -117,7 +117,7 @@ public class GUI_MAIN extends JFrame {
 				jta_estado.setEditable(false);
 				JScrollPane jspe = new JScrollPane(jta_estado);
 				jspe.setBorder(null);
-				jspe.setBounds(10, 35, 434, 129);
+				jspe.setBounds(0, 0, 276, 353);
 				estado_cadena.add(jspe);
 			
 			
@@ -163,12 +163,12 @@ public class GUI_MAIN extends JFrame {
 					public void actionPerformed(ActionEvent arg0) {
 						if(!entrada.isEnabled() && !entrada.getText().isEmpty()) {
 							jta_info.append("\nIniciando hilos...\n\n");
-							ThreadMT tmt = new ThreadMT(visual_cinta, cinta,jta_estado);
+							ThreadMT tmt = new ThreadMT(visual_cinta, cinta,jta_estado,GUI_MAIN.this);
 							tmt.start();
 							try {Thread.yield();} catch (Exception e) {}
 							iniciar.setEnabled(false);
 						}else {
-							alertas.setForeground(Color.RED);
+							alertas.setForeground(Color.RED); 
 							alertas.setText("Error al iniciar la maquina de turing!");
 						}
 					}
